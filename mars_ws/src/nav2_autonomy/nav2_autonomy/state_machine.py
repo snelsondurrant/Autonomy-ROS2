@@ -8,6 +8,7 @@ Pretty cool, right?
 import rclpy
 from geometry_msgs.msg import PoseStamped
 from nav2_simple_commander.robot_navigator import BasicNavigator, TaskResult
+from std_srvs.srv import SetBool
 import yaml
 from ament_index_python.packages import get_package_share_directory
 import os
@@ -66,6 +67,40 @@ class StateMachine():
 
         self.hex_coord = [(2.0, 0.0), (1.0, 1.73), (-1.0, 1.73), (-2.0, 0.0), (-1.0, -1.73), (1.0, -1.73)]
 
+        # Create the services
+        self.srv = self.create_service(
+            SetBool,
+            "init_mission",
+            self.init_callback
+        )
+
+    def listener_callback(self, request, response):
+        '''
+        Callback function for the init service.
+        Sets the started flag to False when the init request is true.
+
+        Sets the started flag to True and resets the counter when request is false
+
+        '''
+        init_bool = request.data
+        if init_bool:
+            if self.started:
+                response.success = False
+                response.message = 'Manual Mission has already been started. Needs to be reset before initialization'
+            else:
+                self.get_parameters()
+                self.started = request.data
+                response.success = True
+                response.message = 'Manual Mission Started'
+                self.counter = 0
+        else:
+            self.started = False
+            self.counter = 0
+            response.success = True
+            response.message = 'Manual Mission Restarted'
+
+        return response
+    
     def pose_nav(self, pose, leg):
         """
         Function to navigate to a pose
@@ -209,6 +244,7 @@ class StateMachine():
                 return
             
             # TODO: Wait and flash LED
+            # Flashing LED can be done by publishing to a topic using the periperhals package
 
         # Iterate through the aruco legs
         elif leg in self.aruco_legs:

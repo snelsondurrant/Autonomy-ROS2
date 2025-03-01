@@ -29,6 +29,8 @@ setup(
     entry_points={
         'console_scripts': [
             'state_machine = nav2_autonomy.state_machine:main',
+            'object_transform_publisher = nav2_autonomy.object_transform_publisher:main',
+            'sim_object_detector = nav2_autonomy.sim_object_detector:main',
         ],
     },
 )

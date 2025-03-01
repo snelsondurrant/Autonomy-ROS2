@@ -11,6 +11,7 @@
   <depend>robot_localization</depend>
   <depend>mapviz</depend>
   <depend>mapviz_plugins</depend>
+  <depend>std_srvs</depend>
   <depend>tile_map</depend>
 
   <export>
