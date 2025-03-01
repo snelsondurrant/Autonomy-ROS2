@@ -102,7 +102,7 @@ plt.show()
 
 # Write our new waypoints to a new YAML file
 try:
-    with open('output/basic_waypoints.yaml', 'w') as yaml_file:
+    with open('../config/basic_waypoints.yaml', 'w') as yaml_file:
         yaml.dump(new_wps_data, yaml_file, default_flow_style=False)
 except Exception as ex:
     print(f"Error: {str(ex)}")

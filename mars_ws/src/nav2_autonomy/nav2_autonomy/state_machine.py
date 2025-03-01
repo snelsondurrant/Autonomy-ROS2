@@ -268,7 +268,7 @@ def main():
 
     # allow to pass the waypoints file as an argument
     yaml_file_path = os.path.join(get_package_share_directory(
-        "nav2_autonomy"), "config", "waypoints/output/basic_waypoints.yaml")
+        "nav2_autonomy"), "config", "basic_waypoints.yaml")
 
     nav2_sm = StateMachine(yaml_file_path)
     nav2_sm.run_state_machine()
